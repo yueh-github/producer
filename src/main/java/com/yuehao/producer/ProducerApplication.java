@@ -2,20 +2,16 @@ package com.yuehao.producer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class ProducerApplication {
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext app = SpringApplication.run(ProducerApplication.class, args);
-        Sender sender = app.getBean(Sender.class);
-        sender.sendMessage();
+        SpringApplication.run(ProducerApplication.class, args);
+        Thread tp1 = new Thread(new MessageThread("test_01"));
+        tp1.start();
 
-
-        while (true) {
-            sender.sendMessage();
-            Thread.sleep(200);
-        }
+        Thread tp2 = new Thread(new MessageThread("test_02"));
+        tp2.start();
     }
 }

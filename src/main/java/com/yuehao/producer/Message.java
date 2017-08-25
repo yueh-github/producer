@@ -13,6 +13,7 @@ public class Message {
 
     private Date date;
 
+    private String topic;
     public Long getId() {
         return id;
     }
@@ -35,5 +36,13 @@ public class Message {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }
