@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 /**
- * Created by yuehao on 2017/8/24.
+ * Created by yuehao on 2017/8/25.
  */
-public class MessageThread implements Runnable {
+public class PartitionThread implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -19,17 +18,12 @@ public class MessageThread implements Runnable {
 
     private String topic;
 
-//    @Autowired
-//    private KafkaTemplate kafkaTemplate;
+    private SenderPartitionMessage sender;
 
-    @Autowired
-    private SenderSingleMessage sender;
 
-//    private Gson gson = new GsonBuilder().create();
-
-    public MessageThread(String topic) {
+    public PartitionThread(String topic) {
         this.topic = topic;
-        this.sender = (SenderSingleMessage) BeanTools.getBean(SenderSingleMessage.class);
+        this.sender = (SenderPartitionMessage) BeanTools.getBean(SenderPartitionMessage.class);
     }
 
     @Override
@@ -43,7 +37,6 @@ public class MessageThread implements Runnable {
                 message.setMsg(topic + ":" + "frist kafka message " + " number:" + i);
                 message.setDate(new Date());
                 logger.info("{}", "存储message" + gson.toJson(message));
-//            kafkaTemplate.send(topic, message.getMsg(), gson.toJson(message));
                 sender.sendMessage(message);
             } catch (Exception ex) {
 
